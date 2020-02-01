@@ -9,11 +9,9 @@
     <meta http-equiv="Cache-Control" content="no-siteapp" />
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="{{asset('admin/css/font.css')}}">
-	<link rel="stylesheet" href="{{asset('admin/css/xadmin.css')}}">
-    <script type="text/javascript" src="{{asset('js/jquery-3.4.1.js')}}"></script>
-    <script src="{{asset('admin/lib/layui/layui.js')}}" charset="utf-8"></script>
-    <script type="text/javascript" src="{{asset('admin/js/xadmin.js')}}"></script>
+    @include('admin/public/style')
+    @include('admin/public/script')
+
 
 </head>
 <body class="login-bg">
@@ -62,7 +60,7 @@
         //       form.on('submit(login)', function(data){
         //         // alert(888)
         //         layer.msg(JSON.stringify(data.field),function(){
-        //             location.href='index.html'
+        //             location.href='index.blade.php'
         //         });
         //         return false;
         //       });

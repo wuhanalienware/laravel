@@ -45,23 +45,30 @@ class LoginController extends Controller
         }
 
         //对比数据库是否有此用户
+        //验证验证码
+        if(strtolower($input['code']) != strtolower(session()->get('code'))){
+            return redirect('admin/login')->with('errors', '验证码错误');
+        }
+        //验证用户名
         $user = User::where('user_name',$input['username'])->first();
         if (!$user) {
             return redirect('admin/login')->with('errors', '没有此用户');
         }
+//        验证密码
         if ($input['password'] != Crypt::decrypt($user->user_pass)) {
             return redirect('admin/login')->with('errors','密码错误');
 
         }
-        $a = '123456';
-        $crpty = 'eyJpdiI6IjduWEFYc1NreVo2RTVcL0g0QlFuUkVnPT0iLCJ2YWx1ZSI6InJoT1RcL2RkSE9QeWcrOVBrZEpJdk93PT0iLCJtYWMiOiI3NzI5OGEzZDIyNmJjNzUwMDQxY2MwNzM4ZjVkNmQwOWY2OTRjMTlhNzQ2NGU4NGJiNzkyOTY1OTlkNGI2MGY1In0=';
-//        return $crypt = Crypt::encrypt($a);
-        if (Crypt::decrypt($crpty) == $a) {
-            return '密码正确';
-        }
+//        $a = '123456';
+//        $crpty = 'eyJpdiI6IjduWEFYc1NreVo2RTVcL0g0QlFuUkVnPT0iLCJ2YWx1ZSI6InJoT1RcL2RkSE9QeWcrOVBrZEpJdk93PT0iLCJtYWMiOiI3NzI5OGEzZDIyNmJjNzUwMDQxY2MwNzM4ZjVkNmQwOWY2OTRjMTlhNzQ2NGU4NGJiNzkyOTY1OTlkNGI2MGY1In0=';
+////        return $crypt = Crypt::encrypt($a);
+//        if (Crypt::decrypt($crpty) == $a) {
+//            return '密码正确';
+//        }
         //保存用户信息到session中
-
+        session()->put('user',$user);
         //跳转到后台首页
+        return redirect('admin/index');
     }
 
 
@@ -96,5 +103,21 @@ class LoginController extends Controller
         header("Content-Type:image/jpeg");
         $builder->output();
     }
+//后台首页
+    public function index()
+    {
+        return view('admin.index');
+}//后台欢迎页
+    public function welcome()
+    {
+        return view('admin.welcome');
+}
 
+//推出后台登陆
+    public function logout()
+    {
+        //清空后台session
+        session()->flush();
+        return redirect('admin/login');
+}
 }

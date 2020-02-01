@@ -17,6 +17,7 @@ Route::get('/', function () {
 //Route::get('/', function () {
 //    echo "hello";
 //});
+
 //用户添加路由
 Route::get('user/add','UserController@add');
 //用户执行添加路由
@@ -29,11 +30,24 @@ Route::get('user/edit/{id}','UserController@edit');
 Route::post('user/update','UserController@update');
 //删除路由
 Route::get('user/del/{id}','UserController@destory');
-//登陆页面路由
-Route::get('admin/login','Admin\LoginController@login');
-//验证码路由
-Route::get('admin/code','Admin\LoginController@code');
+
 //验证码路由2
-Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
+Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
+
+Route::group(['prefix'=>'admin','namespace'=>'Admin'],function (){
+    //后台登陆页面路由
+    Route::get('login','LoginController@login');
+//验证码路由
+    Route::get('code','LoginController@code');
 //登陆处理路由
-Route::post('admin/doLogin','Admin\LoginController@doLogin');
+    Route::post('doLogin','LoginController@doLogin');
+});
+
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],function (){
+    //后台首页
+    Route::get('index','LoginController@index');
+//后台欢迎页
+    Route::get('welcome','LoginController@welcome');
+//后台推出路由
+    Route::get('logout','LoginController@logout');
+});

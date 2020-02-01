@@ -24,8 +24,9 @@ class UserController extends Controller
         $res = User::create($input);
         if ($res){
             return redirect('user/index');
-        }else
+        }else {
             return back();
+        }
     }
 //用户列表页
     public function index()
