@@ -29,9 +29,11 @@ Route::get('user/edit/{id}','UserController@edit');
 Route::post('user/update','UserController@update');
 //删除路由
 Route::get('user/del/{id}','UserController@destory');
-//登陆路由
+//登陆页面路由
 Route::get('admin/login','Admin\LoginController@login');
 //验证码路由
 Route::get('admin/code','Admin\LoginController@code');
 //验证码路由2
 Route::get('/code/captcha/{tmp}', 'Admin\LoginController@captcha');
+//登陆处理路由
+Route::post('admin/doLogin','Admin\LoginController@doLogin');
