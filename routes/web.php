@@ -43,6 +43,7 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function (){
     Route::post('doLogin','LoginController@doLogin');
 });
 
+
 Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],function (){
     //后台首页
     Route::get('index','LoginController@index');
@@ -50,4 +51,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],fu
     Route::get('welcome','LoginController@welcome');
 //后台推出路由
     Route::get('logout','LoginController@logout');
+//后台用户模块相关路由
+    Route::resource('user','UserController');
 });
+
+
+//Route::get('admin/user/index','UserController@index');
