@@ -30,10 +30,18 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+        <form class="layui-form layui-col-md12 x-so" method="get" action="{{url('admin/user')}}">
+            <div class="layui-input-inline">
+                <select name="num" lay-filter="aihao">
+                    <option value=""></option>
+                    <option value="3" @if($request->input('num')==3)selected @endif>3</option>
+                    <option value="5" @if($request->input('num')==5)selected @endif>5</option>
+                </select>
+            </div>
+{{--          <input class="layui-input" placeholder="开始日" name="start" id="start">--}}
+{{--          <input class="layui-input" placeholder="截止日" name="end" id="end">--}}
+          <input type="text" name="username" value="{{$request->input('username')}}"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <input type="text" name="email" value="{{$request->input('email')}}"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -49,25 +57,20 @@
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
             <th>ID</th>
-            <th>登录名</th>
-            <th>手机</th>
+            <th>用户名</th>
             <th>邮箱</th>
-            <th>角色</th>
-            <th>加入时间</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
         <tbody>
+        @foreach($user as $v)
           <tr>
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>admin</td>
-            <td>18925139194</td>
-            <td>113664000@qq.com</td>
-            <td>超级管理员</td>
-            <td>2017-01-01 11:11:42</td>
+            <td>{{$v->user_id}}</td>
+            <td>{{$v->user_name}}</td>
+            <td>{{$v->email}}</td>
             <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
             <td class="td-manage">
@@ -83,16 +86,10 @@
             </td>
           </tr>
         </tbody>
+          @endforeach
       </table>
       <div class="page">
-        <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
-        </div>
+{!! $user->appends($request->all())->render() !!}
       </div>
 
     </div>

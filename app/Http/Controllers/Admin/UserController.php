@@ -14,9 +14,23 @@ class UserController extends Controller
      *获取列表页
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.user.list');
+        $user =  User::orderBy('user_id', 'asc')
+            ->where(function ($query) use ($request) {
+                $username = $request->input('username');
+                $email = $request->input('email');
+                if (!empty($username)){
+                    $query->where('user_name','like','%'.$username.'%');
+                }
+                if (!empty($email)){
+                    $query->where('email','like','%'.$email.'%');
+                }
+            })
+            ->paginate($request->input('num')?$request->input('num'):3);
+
+//        $user = User::paginate(3);
+        return view('admin.user.list',compact('user','request'));
     }
 
 
