@@ -51,8 +51,11 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],fu
     Route::get('welcome','LoginController@welcome');
 //后台推出路由
     Route::get('logout','LoginController@logout');
+    //删除多个用户操作
+    Route::get('user/del','UserController@delAll');
 //后台用户模块相关路由
     Route::resource('user','UserController');
+
 });
 
 

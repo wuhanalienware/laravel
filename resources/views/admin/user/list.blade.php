@@ -66,7 +66,7 @@
         @foreach($user as $v)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->user_id}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
             <td>{{$v->user_id}}</td>
             <td>{{$v->user_name}}</td>
@@ -77,10 +77,10 @@
               <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','admin-edit.html')" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/'.$v->user_id.'/edit')}}')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" onclick="member_del(this,{{$v->user_id}})" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -136,21 +136,38 @@
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.post('/admin/user/'+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
+                  if (data.status == 0){
+                      $(obj).parents("tr").remove();
+                      layer.msg(data.msg,{icon:6,time:1000});
+                  }else {
+                      layer.msg(data.msg,{icon:5,time:1000});
+                  }
+                  })
+              // $(obj).parents("tr").remove();
+              // layer.msg('已删除!',{icon:1,time:1000});
           });
       }
 
 
 
       function delAll (argument) {
+          var ids = [];
+          $(".layui-form-checked").not('.header').each(function (i,v){
+              var u = $(v).attr('data-id');
+              ids.push(u);
+          });
 
-        var data = tableCheck.getData();
-
-        layer.confirm('确认要删除吗？'+data,function(index){
+        layer.confirm('确认要删除吗？',function(index){
             //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
+            $.get('/admin/user/del',{'ids':ids},function (data) {
+                if (data.status == 0){
+                    $(".layui-form-checked").not('.header').parents('tr').remove();
+                    layer.msg(data.msg,{icon:6,time:1000});
+                }else {
+                    layer.msg(data.msg,{icon:5,time:1000});
+                }
+            });
         });
       }
     </script>
