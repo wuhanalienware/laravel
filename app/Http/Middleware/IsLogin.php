@@ -18,7 +18,7 @@ class IsLogin
         if (session()->get('user')){
             return $next($request);
         }else{
-            return redirect('admin/login')->with('errors','非法操作，请注意素质');
+            return redirect('admin/login')->with('errors','登陆超时，请刷新后重新登陆');
         }
     }
 }

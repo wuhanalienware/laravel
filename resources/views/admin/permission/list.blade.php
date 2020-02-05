@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>用户列表页</title>
+    <title>权限管理页</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -29,26 +29,10 @@
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
     <div class="x-body">
-      <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so" method="get" action="{{url('admin/user')}}">
-            <div class="layui-input-inline">
-                <select name="num" lay-filter="aihao">
-                    <option value=""></option>
-                    <option value="3" @if($request->input('num')==3)selected @endif>3</option>
-                    <option value="5" @if($request->input('num')==5)selected @endif>5</option>
-                </select>
-            </div>
-{{--          <input class="layui-input" placeholder="开始日" name="start" id="start">--}}
-{{--          <input class="layui-input" placeholder="截止日" name="end" id="end">--}}
-          <input type="text" name="username" value="{{$request->input('username')}}"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <input type="text" name="email" value="{{$request->input('email')}}"  placeholder="请输入邮箱" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-        </form>
-      </div>
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量操作</button>
         <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/user/create')}}')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+        <span class="x-right" style="line-height:40px"></span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -57,33 +41,24 @@
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
             <th>ID</th>
-            <th>用户名</th>
-            <th>邮箱</th>
-            <th>状态</th>
+            <th>权限名称</th>
+            <th>权限路由</th>
             <th>操作</th>
         </thead>
         <tbody>
-        @foreach($user as $v)
+        @foreach($per as $v)
           <tr>
             <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->user_id}}'><i class="layui-icon">&#xe605;</i></div>
+              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='{{$v->id}}'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>{{$v->user_id}}</td>
-            <td>{{$v->user_name}}</td>
-            <td>{{$v->email}}</td>
-            <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
+            <td>{{$v->id}}</td>
+            <td>{{$v->per_name}}</td>
+            <td>{{$v->per_url}}</td>
             <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
-                <i class="layui-icon">&#xe601;</i>
-              </a>
-                <a title="授权" href="{{url('admin/user/user_auth/'.$v->user_id)}}">
-                    <i class="layui-icon layui-icon-user"></i>
-                </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/user/'.$v->user_id.'/edit')}}')" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','{{url('admin/permission/'.$v->id.'/edit')}}')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,{{$v->user_id}})" href="javascript:;">
+              <a title="删除" onclick="member_del(this,{{$v->id}})" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -91,10 +66,6 @@
         </tbody>
           @endforeach
       </table>
-      <div class="page">
-{!! $user->appends($request->all())->render() !!}
-      </div>
-
     </div>
     <script>
       layui.use('laydate', function(){

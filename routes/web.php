@@ -54,8 +54,22 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],fu
     //删除多个用户操作
     Route::get('user/del','UserController@delAll');
 //后台用户模块相关路由
-    Route::resource('user','UserController');
 
+    //为用户设置角色路由
+    Route::get('user/user_auth/{id}','UserController@user_auth');
+    //处理角色路由
+    Route::post('user/doauth','UserController@doauth');
+//    用户模块资源路由
+    Route::resource('user','UserController');
+    //角色模块
+    //角色授权路由
+    Route::get('role/auth/{id}','RoleController@auth');
+    Route::post('role/doauth','RoleController@doauth');
+    //    角色模块资源路由
+    Route::resource('role','RoleController');
+
+    //权限模块资源路由
+    Route::resource('permission','PermissionController');
 });
 
 

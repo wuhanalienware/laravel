@@ -15,5 +15,10 @@ class User extends Model
     //全部允许
     public $guarded = [];
     //是否维护created_at和updated_at
-    public $timestamps = false;
+//    public $timestamps = false;
+
+    public function role()
+    {
+        return $this->belongsToMany('App\Model\Role','user_role','user_id','role_id');
+    }
 }

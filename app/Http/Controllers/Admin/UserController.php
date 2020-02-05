@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Role;
 use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,10 +18,13 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        //搜索加分页
         $user =  User::orderBy('user_id', 'asc')
             ->where(function ($query) use ($request) {
+//                获取搜索条件
                 $username = $request->input('username');
                 $email = $request->input('email');
+                //拼接查找条件
                 if (!empty($username)){
                     $query->where('user_name','like','%'.$username.'%');
                 }
@@ -27,6 +32,7 @@ class UserController extends Controller
                     $query->where('email','like','%'.$email.'%');
                 }
             })
+            //分页
             ->paginate($request->input('num')?$request->input('num'):3);
 
 //        $user = User::paginate(3);
@@ -164,5 +170,36 @@ class UserController extends Controller
             ];
         }
         return $data;
+    }
+    public function doauth(Request $request)
+    {
+        $input = $request->except('_token');
+        //先删除全部权限
+        DB::table('user_role')->where('user_id',$input['user_id'])->delete();
+        //再添加新权限
+        if (!empty($input['id'])){
+            foreach ($input['id'] as $value) {
+                DB::table('user_role')->insert(['user_id'=>$input['user_id'],'role_id'=>$value]);
+            }
+        }
+        return redirect('admin/user');
+    }
+    //用户授权
+    public function user_auth($id)
+    {
+
+        //获取当前用户
+        $user = User::find($id);
+        //获取所有的角色列表
+        $perms = Role::get();
+        //获取当前用户的角色
+        //需要在模型中对角色表进行关联
+        $own_perms = $user->role;
+        //获取用户拥有的角色id
+        $own_pers = [];
+        foreach ($own_perms as $v) {
+            $own_pers[] = $v->id;
+        }
+        return view('admin.user.auth',compact('user','perms','own_pers'));
     }
 }
