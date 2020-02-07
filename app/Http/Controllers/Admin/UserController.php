@@ -33,7 +33,7 @@ class UserController extends Controller
                 }
             })
             //分页
-            ->paginate($request->input('num')?$request->input('num'):3);
+            ->paginate($request->input('num')?$request->input('num'):5);
 
 //        $user = User::paginate(3);
         return view('admin.user.list',compact('user','request'));
@@ -61,21 +61,11 @@ class UserController extends Controller
         //
 
         $input = $request->all();
-
         $username = $input['email'];
         $password = Crypt::encrypt($input['pass']); ;
+
         $res = User::create(['user_name'=>$username,'user_pass'=>$password,'email'=>$username]);
-        if($res){
-            $data = [
-                'status'=>0,
-                'msg'=>'添加成功'
-            ];
-        }else{
-            $data = [
-                'status'=>1,
-                'msg'=>'添加失败'
-            ];
-        }
+        $data = $this->result($res);
         return $data;
     }
 
@@ -115,17 +105,7 @@ class UserController extends Controller
         $username = $request->input('username');
         $user->user_name = $username;
         $res = $user->save();
-        if ($res) {
-            $data = [
-                'status'=>0,
-                'msg' => '修改成功',
-            ];
-        }else{
-            $data = [
-                'status'=>1,
-                'msg' => '修改失败',
-            ];
-        }
+        $data = $this->result($res);
         return $data;
     }
 
@@ -139,17 +119,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $res = $user->delete();
-        if ($res) {
-            $data = [
-                'status'=>0,
-                'msg' => '删除成功',
-            ];
-        }else{
-            $data = [
-                'status'=>1,
-                'msg' => '删除失败',
-            ];
-        }
+        $data = $this->result($res);
         return $data;
     }
 
@@ -158,17 +128,7 @@ class UserController extends Controller
     {
         $input = $request->input('ids');
         $res = User::destroy($input);
-        if ($res) {
-            $data = [
-                'status'=>0,
-                'msg' => '删除成功',
-            ];
-        }else{
-            $data = [
-                'status'=>1,
-                'msg' => '删除失败',
-            ];
-        }
+        $data = $this->result($res);
         return $data;
     }
     public function doauth(Request $request)

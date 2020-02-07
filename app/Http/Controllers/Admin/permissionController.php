@@ -26,7 +26,7 @@ class permissionController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.permission.add');
     }
 
     /**
@@ -37,7 +37,10 @@ class permissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->except('_token');
+        $res = permission::create($input);
+        $data = $this->result($res);
+        return $data;
     }
 
     /**
@@ -59,7 +62,8 @@ class permissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $per = permission::find($id);
+        return view('admin.permission.edit', compact('per'));
     }
 
     /**
@@ -71,7 +75,14 @@ class permissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $per = permission::find($id);
+        $pername = $request->input('per_name');
+        $perurl = $request->input('per_url');
+        $per->per_name = $pername;
+        $per->per_url = $perurl;
+        $res = $per->save();
+        $data = $this->result($res);
+        return $data;
     }
 
     /**
@@ -82,6 +93,9 @@ class permissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = permission::find($id);
+        $res = $user->delete();
+        $data = $this->result($res);
+        return $data;
     }
 }

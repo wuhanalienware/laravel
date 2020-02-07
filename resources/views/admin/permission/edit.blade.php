@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
+    <title>编辑权限</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -23,11 +23,18 @@
         <form class="layui-form">
             <div class="layui-form-item">
                 <label for="L_email" class="layui-form-label">
-                    <span class="x-red">*</span>用户名
+                    <span class="x-red">*</span>权限名
                 </label>
                 <div class="layui-input-inline">
-                    <input type="hidden" name="uid" value="{{$role->id}}">
-                    <input type="text" id="L_email" value="{{$role->role_name}}" name="role_name" required="" lay-verify=""
+                    <input type="hidden" name="id" value="{{$per->id}}">
+                    <input type="text" id="L_email" value="{{$per->per_name}}" name="per_name" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+                <label for="url" class="layui-form-label">
+                    <span class="x-red">*</span>权限路由
+                </label>
+                <div class="layui-input-inline">
+                    <input style="width: 500px;"  type="text" id="url" value="{{$per->per_url}}" name="per_url" required="" lay-verify=""
                            autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
@@ -66,10 +73,10 @@
 
                 //监听提交
                 form.on('submit(edit)', function(data){
-                    var uid = $("input[name='uid']").val();
+                    var pid = $("input[name='id']").val();
                     $.ajax({
                         type:'PUT',
-                        url:'/admin/role/'+uid,
+                        url:'/admin/permission/'+pid,
                         dataType:'json',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -42,15 +42,18 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function (){
 //登陆处理路由
     Route::post('doLogin','LoginController@doLogin');
 });
+//没有权限跳转路由
+Route::get('noaccess','Admin\LoginController@noaccess');
 
+//后台推出路由
+Route::get('admin/logout','Admin\LoginController@logout');
 
-Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],function (){
+Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>['isLogin','hasRole']],function (){
+//Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],function (){
     //后台首页
     Route::get('index','LoginController@index');
 //后台欢迎页
     Route::get('welcome','LoginController@welcome');
-//后台推出路由
-    Route::get('logout','LoginController@logout');
     //删除多个用户操作
     Route::get('user/del','UserController@delAll');
 //后台用户模块相关路由
@@ -70,6 +73,17 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>'isLogin'],fu
 
     //权限模块资源路由
     Route::resource('permission','PermissionController');
+
+    //分类路由
+    //    修改排序
+    Route::post('cate/changeorder','CateController@changeOrder');
+    Route::resource('cate','CateController');
+
+
+    //    文章缩略图上传路由
+    Route::post('article/upload','ArticleController@upload');
+    //文章路由
+    Route::resource('article','ArticleController');
 });
 
 

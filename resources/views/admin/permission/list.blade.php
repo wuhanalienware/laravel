@@ -31,7 +31,7 @@
     <div class="x-body">
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量操作</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/user/create')}}')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','{{url('admin/permission/create')}}')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px"></span>
       </xblock>
       <table class="layui-table">
@@ -110,7 +110,7 @@
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $.post('/admin/user/'+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
+              $.post('/admin/permission/'+id,{"_method":"delete","_token":"{{csrf_token()}}"},function(data){
                   if (data.status == 0){
                       $(obj).parents("tr").remove();
                       layer.msg(data.msg,{icon:6,time:1000});

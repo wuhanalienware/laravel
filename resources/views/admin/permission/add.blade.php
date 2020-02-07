@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
+    <title>新增权限</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -20,26 +20,33 @@
 
   <body>
     <div class="x-body">
-        <form class="layui-form">
+        <form class="layui-form" method="post">
+            {{csrf_field()}}
             <div class="layui-form-item">
                 <label for="L_email" class="layui-form-label">
-                    <span class="x-red">*</span>用户名
+                    <span class="x-red">*</span>权限名称
                 </label>
                 <div class="layui-input-inline">
-                    <input type="hidden" name="uid" value="{{$role->id}}">
-                    <input type="text" id="L_email" value="{{$role->role_name}}" name="role_name" required="" lay-verify=""
+                    <input type="text" id="L_email" name="per_name" required="" lay-verify=""
                            autocomplete="off" class="layui-input">
                 </div>
+                <label for="url" class="layui-form-label">
+                    <span class="x-red">*</span>权限url
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" style="width: 500px;" id="url" name="per_url" required="" lay-verify=""
+                           autocomplete="off" class="layui-input">
+                </div>
+
                 <div class="layui-form-mid layui-word-aux">
-                    <span class="x-red">*</span>
+                    <span class="x-red"></span>
                 </div>
             </div>
-
           <div class="layui-form-item">
               <label for="L_repass" class="layui-form-label">
               </label>
-              <button  class="layui-btn" lay-filter="edit" lay-submit="">
-                  修改
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
               </button>
           </div>
       </form>
@@ -49,27 +56,11 @@
                 var form = layui.form
                     ,layer = layui.layer;
 
-                //自定义验证规则
-                form.verify({
-                    nikename: function(value){
-                        if(value.length < 5){
-                            return '昵称至少得5个字符啊';
-                        }
-                    }
-                    ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-                    ,repass: function(value){
-                        if($('#L_pass').val()!=$('#L_repass').val()){
-                            return '两次密码不一致';
-                        }
-                    }
-                });
-
                 //监听提交
-                form.on('submit(edit)', function(data){
-                    var uid = $("input[name='uid']").val();
+                form.on('submit(add)', function(data){
                     $.ajax({
-                        type:'PUT',
-                        url:'/admin/role/'+uid,
+                        type:'POST',
+                        url:'/admin/permission',
                         dataType:'json',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -91,13 +82,6 @@
                     });
 
 
-                    // //发异步，把数据提交给php
-                    // layer.alert("增加成功", {icon: 6},function () {
-                    //     // 获得frame索引
-                    //     var index = parent.layer.getFrameIndex(window.name);
-                    //     //关闭当前frame
-                    //     parent.layer.close(index);
-                    // });
                     return false;
                 });
 
