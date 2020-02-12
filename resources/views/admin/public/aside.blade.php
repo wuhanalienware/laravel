@@ -100,7 +100,7 @@
                     <li>
                         <a _href="{{url('admin/article')}}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>分类列表</cite>
+                            <cite>文章列表</cite>
                         </a>
                     </li >
                 </ul>
@@ -108,7 +108,30 @@
                     <li>
                         <a _href="{{url('admin/article/create')}}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>添加分类</cite>
+                            <cite>添加文章</cite>
+                        </a>
+                    </li >
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe723;</i>
+                    <cite>配置管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="{{url('admin/config')}}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>配置列表</cite>
+                        </a>
+                    </li >
+                </ul>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="{{url('admin/config/create')}}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>添加配置</cite>
                         </a>
                     </li >
                 </ul>

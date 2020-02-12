@@ -11,12 +11,18 @@
 |
 */
 //
-Route::get('/', function () {
-    return view('welcome');
-});
 //Route::get('/', function () {
 //    echo "hello";
 //});
+
+
+//前台路由
+
+Route::get('/','Home\IndexController@index')->name('index');
+Route::get('lists/{id}','Home\IndexController@lists');
+Route::get('detail/{id}','Home\IndexController@detail');
+
+
 
 //用户添加路由
 Route::get('user/add','UserController@add');
@@ -79,11 +85,19 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>['isLogin','h
     Route::post('cate/changeorder','CateController@changeOrder');
     Route::resource('cate','CateController');
 
-
+    //将markdown语法的内容转化为html语法的内容
+    Route::post('article/pre_mk','ArticleController@pre_mk');
     //    文章缩略图上传路由
     Route::post('article/upload','ArticleController@upload');
     //文章路由
     Route::resource('article','ArticleController');
+
+
+
+    //网站配置模块路由
+    Route::post('config/changecontent','ConfigController@changeContent');
+    Route::get('config/putcontent','ConfigController@putContent');
+    Route::resource('config','ConfigController');
 });
 
 

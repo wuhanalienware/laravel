@@ -81,7 +81,9 @@
           @endforeach
         </tbody>
       </table>
+        <div class="page">
 
+        </div>
 
     </div>
     <script>
@@ -117,7 +119,7 @@
                       layer.msg('已删除!',{icon:1,time:1000});
                   }else{
                       // $(obj).parents("tr").remove();
-                      layer.msg('删除失败!',{icon:1,time:1000});
+                      layer.msg('删除失败!',{icon:5,time:1000});
                   }
 
               })
