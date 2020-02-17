@@ -6,6 +6,7 @@
         <meta name="renderer" content="webkit">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         @include('admin/public/style')
         @include('admin/public/script')
@@ -14,6 +15,7 @@
     <div class="x-body layui-anim layui-anim-up">
         <blockquote class="layui-elem-quote">欢迎管理员：
             <span class="x-red">test</span>！当前时间:2018-04-25 20:50:53</blockquote>
+        <button  onclick="clear_redis()" class="layui-btn layui-btn-sm layui-btn-normal"><i class="layui-icon"></i> 清除redis缓存</button>
         <fieldset class="layui-elem-field">
             <legend>数据统计</legend>
             <div class="layui-field-box">
@@ -153,6 +155,41 @@
         </fieldset>
         <blockquote class="layui-elem-quote layui-quote-nm">感谢layui,百度Echarts,jquery,本系统由x-admin提供技术支持。</blockquote>
     </div>
+    <script>
+
+        //监听提交
+        function clear_redis(){
+            var clear = 'clear';
+            $.ajax({
+                type: 'POST',
+                url: '/admin/user/clear',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{'clear':clear},
+                success: function (data) {
+                    // console.log(data);
+                    if (data.status == 0) {
+                        layer.alert(data.msg, {icon: 6}, function () {
+                            parent.location.reload(true);
+                        });
+                    } else {
+                        layer.alert(data.msg, {icon: 5})
+                    }
+                },
+                error: function (data) {
+
+                }
+            });
+        }
+
+        layui.use(['form','layer'], function(){
+            $ = layui.jquery;
+            var form = layui.form
+                ,layer = layui.layer;
+        });
+    </script>
         <script>
         var _hmt = _hmt || [];
         (function() {

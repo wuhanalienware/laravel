@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\SMS\SendTemplateSMS;
 use App\SMS\M3Result;
 use Illuminate\Support\Facades\Crypt;
-use Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Model\HomeUser;
 
 class RegisterController extends Controller

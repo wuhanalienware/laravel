@@ -12,7 +12,7 @@
         <div class="search-btn-click">
             <i class="fa fa-search"></i>
             <div class="header-search-slide">
-                <form method="get" id="searchform-slide" class="searchform" action="http://www.lmonkey.com" role="search">
+                <form method="get" id="searchform-slide" class="searchform" action="javascript:;" role="search">
                     <input type="search" class="field" name="s" value="" placeholder="Search" required="" />
                 </form>
             </div>
@@ -79,7 +79,7 @@
         <nav id="primary-navigation" class="site-navigation primary-navigation " role="navigation">
             <div class="menu-%e9%a1%b6%e9%83%a8%e8%8f%9c%e5%8d%95-container">
                 <ul id="menu-%e9%a1%b6%e9%83%a8%e8%8f%9c%e5%8d%95" class="nav-menu">
-                    <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-4324"><a href="http://www.lmonkey.com">首页</a></li>
+                    <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-4324"><a href="http://www.wuhandeblog.com">首页</a></li>
 
 
                     @foreach($cateone as $k=>$v)

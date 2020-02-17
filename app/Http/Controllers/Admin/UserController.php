@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 
 class UserController extends Controller
 {
@@ -161,5 +162,10 @@ class UserController extends Controller
             $own_pers[] = $v->id;
         }
         return view('admin.user.auth',compact('user','perms','own_pers'));
+    }
+
+    public function clear(Request $request)
+    {
+        Redis::flushdb();
     }
 }

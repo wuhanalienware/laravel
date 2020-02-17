@@ -22,7 +22,12 @@ Route::get('/','Home\IndexController@index')->name('index');
 Route::get('lists/{id}','Home\IndexController@lists');
 Route::get('detail/{id}','Home\IndexController@detail');
 
+Route::post('collect','Home\IndexController@collect');
 
+//登录
+Route::get('login','Home\LoginController@login');
+Route::post('dologin','Home\LoginController@doLogin');
+Route::get('loginout','Home\LoginController@loginOut');
 
 //用户添加路由
 Route::get('user/add','UserController@add');
@@ -36,6 +41,27 @@ Route::get('user/edit/{id}','UserController@edit');
 Route::post('user/update','UserController@update');
 //删除路由
 Route::get('user/del/{id}','UserController@destory');
+
+
+//邮箱注册激活路由
+Route::get('emailregister','Home\RegisterController@register');
+Route::post('doregister','Home\RegisterController@doRegister');
+
+Route::get('active','Home\RegisterController@active');
+Route::get('forget','Home\RegisterController@forget');
+//发送密码找回邮件
+Route::post('doforget','Home\RegisterController@doforget');
+//重新设置密码页面
+Route::get('reset','Home\RegisterController@reset');
+//重置密码逻辑
+Route::post('doreset','Home\RegisterController@doreset');
+
+
+//手机注册页路由
+Route::get('phoneregister','Home\RegisterController@phoneReg');
+//发送手机验证码
+Route::get('sendcode','Home\RegisterController@sendCode');
+Route::post('dophoneregister','Home\RegisterController@doPhoneRegister');
 
 //验证码路由2
 Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
@@ -51,6 +77,8 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin'],function (){
 //没有权限跳转路由
 Route::get('noaccess','Admin\LoginController@noaccess');
 
+
+
 //后台推出路由
 Route::get('admin/logout','Admin\LoginController@logout');
 
@@ -63,6 +91,10 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>['isLogin','h
     //删除多个用户操作
     Route::get('user/del','UserController@delAll');
 //后台用户模块相关路由
+
+//清理缓存
+    Route::post('user/clear','UserController@clear');
+
 
     //为用户设置角色路由
     Route::get('user/user_auth/{id}','UserController@user_auth');

@@ -6,15 +6,15 @@
 
     <script src="/home/js/jquery.min.js"></script>
     <script src="/home/js/jquery.cookie.js"></script>
-    <title>登录 ‹ 猿圈 — WordPress</title>
-    <style type="text/css">
-        body.login div#login h1 a {
-            background-image: url(https://www.lmonkey.com/wp-content/themes/tinection/images/wordpress-logo.png);
-            -webkit-background-size: 85px 85px;
-            background-size: 85px 85px;
-            width: 85px;
-            height: 85px
-        }</style>
+    <title>登录</title>
+{{--    <style type="text/css">--}}
+{{--        body.login div#login h1 a {--}}
+{{--            background-image: url(https://www.lmonkey.com/wp-content/themes/tinection/images/wordpress-logo.png);--}}
+{{--            -webkit-background-size: 85px 85px;--}}
+{{--            background-size: 85px 85px;--}}
+{{--            width: 85px;--}}
+{{--            height: 85px--}}
+{{--        }</style>--}}
     <link rel="dns-prefetch" href="http://s.w.org/">
     <link rel="stylesheet" href="{{ asset('home/css/login.css') }}" type="text/css" media="all">
     <meta name="robots" content="noindex,follow">
@@ -22,9 +22,12 @@
 </head>
 <body class="login login-action-login wp-core-ui  locale-zh-cn" onload="getCookie();">
 <div id="login">
-    <h1><a href="https://www.lmonkey.com/" title="猿圈" tabindex="-1">猿圈</a></h1>
+{{--    <h1><a href="https://www.lmonkey.com/" title="猿圈" tabindex="-1">猿圈</a></h1>--}}
 
     <form name="loginform" id="loginform" action="{{ url('dologin') }}" method="post">
+        @if(is_string($errors))
+            {{$errors}}
+        @endif
         {{ csrf_field() }}
         @if(session('msg'))
            <p style="color:red;">{{ session('msg') }}</p>

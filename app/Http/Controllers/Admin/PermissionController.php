@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\permission;
+use App\Model\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class permissionController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class permissionController extends Controller
      */
     public function index()
     {
-        $per = permission::get();
+        $per = Permission::get();
         return view('admin.permission.list',compact('per'));
     }
 
@@ -38,7 +38,7 @@ class permissionController extends Controller
     public function store(Request $request)
     {
         $input = $request->except('_token');
-        $res = permission::create($input);
+        $res = Permission::create($input);
         $data = $this->result($res);
         return $data;
     }
@@ -62,7 +62,7 @@ class permissionController extends Controller
      */
     public function edit($id)
     {
-        $per = permission::find($id);
+        $per = Permission::find($id);
         return view('admin.permission.edit', compact('per'));
     }
 
@@ -75,7 +75,7 @@ class permissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $per = permission::find($id);
+        $per = Permission::find($id);
         $pername = $request->input('per_name');
         $perurl = $request->input('per_url');
         $per->per_name = $pername;
@@ -93,7 +93,7 @@ class permissionController extends Controller
      */
     public function destroy($id)
     {
-        $user = permission::find($id);
+        $user = Permission::find($id);
         $res = $user->delete();
         $data = $this->result($res);
         return $data;

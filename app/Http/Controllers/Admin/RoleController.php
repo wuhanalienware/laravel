@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\permission;
+use App\Model\Permission;
 use App\Model\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,10 +32,10 @@ class RoleController extends Controller
         $role = Role::find($id);
 
         //获取所有的权限列表
-        $perms = permission::get();
+        $perms = Permission::get();
         //获取当前角色的权限
         //需要在模型中对权限表进行关联
-        $own_perms = $role->permission;
+        $own_perms = $role->Permission;
         //获取角色拥有的权限id
         $own_pers = [];
         foreach ($own_perms as $v) {

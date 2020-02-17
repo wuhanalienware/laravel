@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 class LoginController extends Controller
@@ -23,7 +22,6 @@ class LoginController extends Controller
     public function doLogin(Request $request)
     {
         $input = $request->except('_token','wp-submit');
-//        dd($input);
         $username = $input['user_name'];
         $password = $input['user_pass'];
 //        $token = md5(uniqid(rand(), TRUE));
@@ -51,9 +49,7 @@ class LoginController extends Controller
         if($input['user_pass'] !=  Crypt::decrypt($user->user_pass) ){
             return redirect('login')->with('errors','密码不对');
         }
-
         //如果登录成功，将登录用户信息保存到session中
-
         session()->put('homeuser',$user);
 
         return redirect('/');

@@ -15,7 +15,7 @@
  $(function(){$(".tooltip-trigger").each(function(b){
  	if(this.title){
  		var c=this.title;
- 		var a=5; 
+ 		var a=5;
  		$(this).mouseover(function(d){
  			this.title="";
  			$(this).append('<div class="tooltip top" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner">'+c+'</div></div>');
@@ -42,7 +42,7 @@ $(document).on("click","#content-index-control",
 $(function(){
   showScroll();
   function showScroll(){
-    $(window).scroll( function() { 
+    $(window).scroll( function() {
       var scrollValue=$(window).scrollTop();
 	  if($('.floatwidget').length>0) {
         var fwbo = $('.floatwidget').offset(),
@@ -59,9 +59,9 @@ $(function(){
                 $('.floatwidget-container').fadeIn('slow');
                 if(maxh > mb){
                   var newtop = mb-maxh+80;
-                  $('.floatwidget-container').css('top',newtop);  
+                  $('.floatwidget-container').css('top',newtop);
                 }else{
-                  $('.floatwidget-container').css('top',80);  
+                  $('.floatwidget-container').css('top',80);
                 }
             }else{
                 $('.floatwidget-container').html('').fadeOut('slow');
@@ -71,10 +71,10 @@ $(function(){
       //fixnav
       (scrollValue > 60 && screen.width>640) ? $('#nav-scroll').addClass('tofix'):$('#nav-scroll').removeClass('tofix');
 
-    } );  
+    } );
     $('#back-to-top').click(function(){
-       $("html,body").animate({scrollTop:0},1000);  
-    }); 
+       $("html,body").animate({scrollTop:0},1000);
+    });
   }
 })
 
@@ -89,18 +89,33 @@ $(".like-btn").click(function(){
 //点击收藏或取消收藏
 $('.collect').click(function(){
 	var _this = $(this);
-	var pid = Number(_this.attr('pid')); 
+	//获取文章id，用户id
+	var artid = Number(_this.attr('artid'));
 	if(_this.attr('uid')&&_this.hasClass('collect-no')){
 		var uid = Number(_this.attr('uid'));
-		$.ajax({type: 'POST', xhrFields: {withCredentials: true}, dataType: 'html', url: tin.ajax_url, data: 'action=collect&uid=' + uid + '&pid=' + pid + '&act=add', cache: false,success: function(){_this.children("span").text("已收藏");_this.addClass("collect-animate").attr("title","已收藏");setTimeout(function(){_this.removeClass('collect-animate').removeClass('collect-no').addClass('collect-yes');},500);}});		
+		$.ajax({
+            type: 'POST',
+            dataType: 'html',
+            url:'collect',
+            data: 'uid=' + uid + '&artid=' + artid + '&act=add', cache: false,
+            success: function(){_this.children("span").text("已收藏");_this.addClass("collect-animate").attr("title","已收藏");setTimeout(function(){_this.removeClass('collect-animate').removeClass('collect-no').addClass('collect-yes');},500);}});
 		return false;
-	}else if(_this.attr('uid')&&_this.hasClass('remove-collect')){
+	}else if(_this.attr('uid')&&_this.hasClass('collect-yes')){
 		var uid = Number(_this.attr('uid'));
-		$.ajax({type: 'POST', xhrFields: {withCredentials: true}, dataType: 'html', url: tin.ajax_url, data: 'action=collect&uid=' + uid + '&pid=' + pid + '&act=remove', cache: false,success: function(){_this.children("span").text("点击收藏");_this.addClass("collect-animate").attr("title","点击收藏");setTimeout(function(){_this.removeClass('collect-animate').removeClass('remove-collect').removeClass('collect-yes').addClass('collect-no');},500);}});
+		$.ajax({
+            type: 'POST',
+            dataType: 'html',
+            url: 'collect',
+            data: 'uid=' + uid + '&artid=' + artid + '&act=remove',
+            cache: false,
+            success: function(){
+            _this.children("span").text("点击收藏");
+            _this.addClass("collect-animate").attr("title","点击收藏");
+            setTimeout(function(){_this.removeClass('collect-animate').removeClass('remove-collect').removeClass('collect-yes').addClass('collect-no');},500);}});
 		return false;
 	}else{
 		return;
-	}   	
+	}
 })
 
 // 微信二维码浮入
@@ -109,7 +124,7 @@ $('.weixin-btn').hover(function(){
   clearTimeout(weixinTimer);
   $('#weixin-qt').css('display','block').stop().animate({
     top : 40 ,
-    opacity : 1 
+    opacity : 1
   },500);
 },function(){
   weixinTimer = setTimeout(function(){
@@ -117,7 +132,7 @@ $('.weixin-btn').hover(function(){
       $(this).css('top',80);
     });
   },100);
- 
+
 });
 
 var asweixinTimer = null;
@@ -125,7 +140,7 @@ $('.as-weixin').hover(function(){
   clearTimeout(asweixinTimer);
   $('#as-weixin-qr').css('display','block').stop().animate({
     bottom : 30 ,
-    opacity : 1 
+    opacity : 1
   },500);
 },function(){
   asweixinTimer = setTimeout(function(){
@@ -133,7 +148,7 @@ $('.as-weixin').hover(function(){
       $(this).css('bottom',60);
     });
   },100);
- 
+
 });
 
 var floatbtnqrTimer = null;
@@ -141,7 +156,7 @@ $('#qr').hover(function(){
   clearTimeout(floatbtnqrTimer);
   $('#floatbtn-qr').css('display','block').stop().animate({
     left : -140 ,
-    opacity : 1 
+    opacity : 1
   },500);
 },function(){
   floatbtnqrTimer = setTimeout(function(){
@@ -149,7 +164,7 @@ $('#qr').hover(function(){
       $(this).css('left',-180);
     });
   },100);
- 
+
 });
 
 //首页布局切换
@@ -258,7 +273,7 @@ $('.stars').mouseover(function(){
 	}else{
 	$('.stars').children('i').removeClass('fa-star').addClass('fa-star-o');
 	$(this).prevAll().children('i').removeClass('fa-star-o').addClass('fa-star');
-	$(this).children('i').removeClass('fa-star-o').addClass('fa-star');	
+	$(this).children('i').removeClass('fa-star-o').addClass('fa-star');
 }});
 $('.stars').click(function(){
 	if($('.rates').hasClass('rated')){
@@ -377,7 +392,7 @@ $('.mail-dl-btn').click(function(){
 	$('.dl-msg').hide();
 	mail = $('.mail-dl').val();
 	pid = $('.dl-mail').attr('pid');
-	clearTimeout(dlmsgTimer);	
+	clearTimeout(dlmsgTimer);
 	if(mail==''){
 		$('.dl-msg').html('邮箱地址不能为空').slideToggle(1000);
 		$("input.mail-dl").focus();
@@ -406,9 +421,9 @@ $('.mail-dl-btn').click(function(){
 		dlmsgTimer = setTimeout(function(){
 			$('.single-download').html('<span><p class="mail-dl-success"><i class="fa fa-check"></i>请求发送成功,请稍候检查你的收件箱.如果长时间未收到,请检查垃圾箱或者直接通过下方网站下方消息框发送包含该文章链接的邮件消息给我，我会及时处理回复.你也可以扫描下方微信二维码并随时与我联系.</p></span><div><img src="'+tin.tin_url+'/images/weixin.png"></div>');
 			$.ajax({type: 'POST', xhrFields: {withCredentials: true}, dataType: 'html', url: tin.ajax_url, data: 'action=whodownload&mail=' + mail + '&pid=' + pid, cache: false});
-		},2000);       
+		},2000);
 	}
-    return false;	
+    return false;
 })
 
 // Download times
@@ -438,7 +453,7 @@ $('.buysaledl').click(function(){
                     $('.confirm-buy').prepend('<button class="yes-to-buy btn btn-success" sid="' + msg.sid + '">确定</button>');
                     $('.yes-to-buy').click(Confirm_to_buy);
                 }
-            }});            
+            }});
         }else{
             $('.buy-pop-out').fadeIn('fast');
             $('.confirm-buy').html('<button class="cancel-to-back btn btn-warning">返回</button>');
@@ -493,7 +508,7 @@ var tinRefreshIcon = '<i class="fa fa-spinner fa-spin" style="margin-right:4px;l
 function tin_do_post(formid, posturl, postdata, contentid){
 	$(formid).find('[type="submit"]').addClass('disabled').prepend(tinRefreshIcon);
 	$.ajax({
-		type: 'POST', 
+		type: 'POST',
 		url: posturl,
 		data: postdata,
 		success: function(response) {
@@ -510,8 +525,8 @@ $('#pmform').submit(function(){
 	var formid = '#pmform';
 	var p = $(formid);
 	tin_do_post(
-		formid, 
-		location.href, 
+		formid,
+		location.href,
 		{
 		'pmNonce' : p.find('[name="pmNonce"]').val(),
 		'pm' : p.find('[name="pm"]').val()
@@ -524,18 +539,18 @@ $('#creditform').submit(function(){
 	var formid = '#creditform';
 	var p = $(formid);
     var obj;
-    var checked;       
-    obj=document.getElementsByName('creditChange');   
+    var checked;
+    obj=document.getElementsByName('creditChange');
     if(obj){
         for (var i = 0; i < obj.length; i++){
             if(obj[i].checked){
                 checked = obj[i].getAttribute('value');
             }else{checked = 'add';}
-        }      
+        }
     }else{checked = 'add';}
 	tin_do_post(
-		formid, 
-		location.href, 
+		formid,
+		location.href,
 		{
 		'creditNonce' : p.find('[name="creditNonce"]').val(),
 		'creditChange' : checked,
@@ -552,18 +567,18 @@ $('#promoteform').submit(function(){
 	var formid = '#promoteform';
 	var p = $(formid);
     var obj;
-    var checked;       
-    obj=document.getElementsByName('promote_type');   
+    var checked;
+    obj=document.getElementsByName('promote_type');
     if(obj){
         for (var i = 0; i < obj.length; i++){
             if(obj[i].checked){
                 checked = obj[i].getAttribute('value');
             }else{checked = 'once';}
-        }      
+        }
     }else{checked = 'once';}
 	tin_do_post(
-		formid, 
-		location.href, 
+		formid,
+		location.href,
 		{
 		'promoteNonce' : p.find('[name="promoteNonce"]').val(),
 		'promote_code' : p.find('[name="promote_code"]').val(),
@@ -582,7 +597,7 @@ $('.delete_promotecode').on('click',function(){
 	var promote_id = p.val();
 	var dpromoteNonce = $('.promote-table input[name=dpromoteNonce]').val();
     $.ajax({
-		type: 'POST', 
+		type: 'POST',
 		url: location.href,
 		data: {
 			'promote_id': promote_id,
@@ -610,7 +625,7 @@ $('button#subscribe').click(function(){
 		}})
 	}
 })
-	
+
 // Unsubscribe
 $('button#unsubscribe').click(function(){
 	email = $('input#unsubscribe').val();
@@ -623,7 +638,7 @@ $('button#unsubscribe').click(function(){
 		}})
 	}
 })
-	
+
 // Cookie
 // function set cookie
 function tinSetCookie(c_name,value,expire,path){
@@ -635,7 +650,7 @@ function tinSetCookie(c_name,value,expire,path){
 function tinGetCookie(c_name){
 	if (document.cookie.length>0){
 		c_start=document.cookie.indexOf(c_name + "=");
-		if (c_start!=-1){ 
+		if (c_start!=-1){
 			c_start=c_start + c_name.length+1;
 			c_end=document.cookie.indexOf(";",c_start);
 			if (c_end==-1) c_end=document.cookie.length;
@@ -664,8 +679,8 @@ if (wpnonce==null || wpnonce=="") set_tin_nonce();
 // Ajax update traffic
 function update_tin_traffic(t,p){
 	$.ajax({
-		type: 'POST', 
-		url: tin.ajax_url, 
+		type: 'POST',
+		url: tin.ajax_url,
 		data: {
 			'action' : 'tin_tracker_ajax',
 			'type' : t,
@@ -705,7 +720,7 @@ function tinGetQueryString(name){
 		$('.search-btn-click').css({'background':'transparent'});
 		$('.header-search-slide').slideUp();
 	})
-	
+
 // Toggle mobile menu
     var opened=false;
     $('.toggle-menu').bind('click',function(event){
@@ -738,13 +753,13 @@ function tinGetQueryString(name){
 // Toggle sortpage menu
 $('#page-sort-menu-btn a').click(function(){
 	$('.pagesidebar ul').slideToggle();
-})	
-	
+})
+
 // Slide nav
 	$(".menu-item-has-children").bind('mouseover',function(){
-		if(screen.width>640&&!$(this).children('ul').is(":animated")) $(this).children('ul').slideDown(); 
+		if(screen.width>640&&!$(this).children('ul').is(":animated")) $(this).children('ul').slideDown();
 	}).bind('mouseleave',function(){
-		if(screen.width>640) $(this).children('ul').slideUp(); 
+		if(screen.width>640) $(this).children('ul').slideUp();
 	});
 
 	$('.login-yet-click').bind('mouseover',function(){
@@ -782,7 +797,7 @@ $('#upload-avatar').click(function(){
     }else{
        document.getElementById('info-form').enctype = "multipart/form-data";
         $('form#info-form').submit();
-    } 
+    }
 })
 
 //general popup
@@ -812,13 +827,13 @@ $("div.amount-number a").on("click", function(b) {
     var c = parseInt($("input[name=" + fieldName + "]").val());
 	var d = parseInt($('li.summary-amount span.dt-num').text());
     "plus" == fieldstyle ? Number(c) >= d ? $("input[name=" + fieldName + "]").val(d) : isNaN(c) ? $("input[name=" + fieldName + "]").val(0) : $("input[name=" + fieldName + "]").val(c + 1) : "minus" == fieldstyle && (!isNaN(c) && c > 1 ? $("input[name=" + fieldName + "]").val(c - 1) : $("input[name=" + fieldName + "]").val(1))
-}), 
+}),
 $("input[name=amountquantity]").keyup(function() {
     var c = $(this).val();
 	var d = parseInt($('li.summary-amount span.dt-num').text());
     if(!/^(\+|-)?\d+$/.test(c) || 0 >= c) $(this).val(1);
 	if(d<c) $(this).val(d)
-}), 
+}),
 $("a.buy-btn").on("click", function(b) {
     b.preventDefault(), $("input[name=order_quantity]").val($("input[name=amountquantity]").val()), calculate()
 }),
@@ -845,7 +860,7 @@ $('#pay-submit').on('click',function create_order(){
 		type: 'POST',
 		dataType: 'json',
 		async: false,
-		url: tin.ajax_url, 
+		url: tin.ajax_url,
 		data: {
 			'action' : 'create_order',
 			'product_id' : product_id,
@@ -889,7 +904,7 @@ $('#promote_code_apply').click(function(){
 			type: 'POST',
 			dataType: 'json',
 			async: false,
-			url: tin.ajax_url, 
+			url: tin.ajax_url,
 			data:{
 				'action' : 'use_promote_code',
 				'promote_code': code,
@@ -902,7 +917,7 @@ $('#promote_code_apply').click(function(){
 					$("#total-price").find("strong").text("￥"+response.total_price);
 				}else{tinAlert(response.msg);}
 			},
-		
+
 		});
 	}
 })
@@ -911,20 +926,20 @@ $('#promote_code_apply').click(function(){
 $('#joinvip-submit').click(function create_vip_order(){
 	$('#joinvip-submit').addClass('disabled').prepend(tinRefreshIcon);
 	var obj;
-    var product_id = -1;       
-    obj=document.getElementsByName('product_id');   
+    var product_id = -1;
+    obj=document.getElementsByName('product_id');
     if(obj){
         for (var i = 0; i < obj.length; i++){
             if(obj[i].checked){
                 product_id = obj[i].getAttribute('value');
             }
-        }      
+        }
     }
 	$.ajax({
 			type: 'POST',
 			dataType: 'json',
 			async: false,
-			url: tin.ajax_url, 
+			url: tin.ajax_url,
 			data:{
 				'action' : 'create_vip_order',
 				'product_id': product_id
@@ -936,7 +951,7 @@ $('#joinvip-submit').click(function create_vip_order(){
 					$('input#order_id').val(response.order_id);
 					$("form#joinvip").attr('onsubmit','').submit();
 				}else{tinAlert(response.msg);}
-			},	
+			},
 		});
 	return false;
 })
@@ -946,12 +961,12 @@ $('#creditrechargesubmit').on('click',function(){
 	var obj = $('#creditrechargeform');
 	obj.find('[type="submit"]').addClass('disabled').prepend(tinRefreshIcon);
     var product_id = -4,
-		creditrechargeNum = obj.find('input[name=creditrechargeNum]').val();       
+		creditrechargeNum = obj.find('input[name=creditrechargeNum]').val();
 	$.ajax({
 			type: 'POST',
 			dataType: 'json',
 			async: false,
-			url: tin.ajax_url, 
+			url: tin.ajax_url,
 			data:{
 				'action' : 'create_credit_recharge_order',
 				'product_id': product_id,
@@ -962,7 +977,7 @@ $('#creditrechargesubmit').on('click',function(){
 					obj.find('input#order_id').val(response.order_id);
 					obj.attr('onsubmit','').submit();
 				}else{tinAlert(response.msg);}
-			},	
+			},
 		});
 	return false;
 })
@@ -1012,7 +1027,7 @@ $(document).ready(function(){
       }
     };
     document.getElementById('floatbtn-qr').insertBefore(qcode.create(),document.getElementById('floatbtn-qr-msg'));
-	
+
 	//Toggle Content
 	$('.toggle-click-btn').click(function(){
 		$(this).next('.toggle-content').slideToggle('slow');
@@ -1048,54 +1063,54 @@ $(document).ready(function(){
          });
      })();
 
-     //Title loading 
+     //Title loading
      $('h3 a').click(function(){
         myloadoriginal = this.text;
         $(this).text('请稍等，正在努力加载中...');
         var myload = this;
         setTimeout(function() { $(myload).text(myloadoriginal); }, 2000);
     });
-	
+
 	//Infobg close
 	$('.infobg-close').click(function(){
 		$(this).parent('.contextual').fadeOut('slow');
 	})
 
     //Marquee site news
-    function startmarquee(lh,speed,delay,index){ 
-        var t; 
-        var p=false; 
-        var o=document.getElementById("news-scroll-zone"+index); 
-        o.innerHTML+=o.innerHTML; 
-        o.onmouseover=function(){p=true} 
-        o.onmouseout=function(){p=false} 
-        o.scrollTop = 0; 
-        function start(){ 
-            t=setInterval(scrolling,speed); 
-            if(!p){ o.scrollTop += 1;} 
-        } 
-        function scrolling(){ 
-            if(o.scrollTop%lh!=0){ 
-            o.scrollTop += 1; 
+    function startmarquee(lh,speed,delay,index){
+        var t;
+        var p=false;
+        var o=document.getElementById("news-scroll-zone"+index);
+        o.innerHTML+=o.innerHTML;
+        o.onmouseover=function(){p=true}
+        o.onmouseout=function(){p=false}
+        o.scrollTop = 0;
+        function start(){
+            t=setInterval(scrolling,speed);
+            if(!p){ o.scrollTop += 1;}
+        }
+        function scrolling(){
+            if(o.scrollTop%lh!=0){
+            o.scrollTop += 1;
             if(o.scrollTop>=o.scrollHeight/2)
-                o.scrollTop = 0; 
-            }else{ 
-                clearInterval(t); 
-                setTimeout(start,delay); 
-            } 
-        } 
-        setTimeout(start,delay); 
+                o.scrollTop = 0;
+            }else{
+                clearInterval(t);
+                setTimeout(start,delay);
+            }
+        }
+        setTimeout(start,delay);
     }
     if($('#news-scroll-zone').length>0){
         startmarquee(20,30,5000,'');
-    }  
-	
+    }
+
 	//Lazyload
 	$(".fancyimg img, .post-item-thumbnail img, tab-item-thumbnail img .avatar img, .newsletter-thumbnail img").lazyload({
 //        	placeholder:tin.tin_url+"/images/image-pending.gif",
             effect:"fadeIn"
     });
-	
+
 	// action tin affiliate url and trackback url
 	$('.tin_aff_url,.trackback-url,input[name=rss]').click(function(){
 		$(this).select();
@@ -1104,16 +1119,16 @@ $(document).ready(function(){
 		$(this).parent().children('input').select();
 		alert('请用CTRL+C复制');
 	})
-	
+
 	// action set affiliate cookie ( credit )
 	if(tinGetQueryString('aff')) tinSetCookie('tin_aff',tinGetQueryString('aff'),86400,tin.home);
-	
+
 	// action update traffic
 //	if(!(typeof(tin.Tracker) == "undefined")) update_tin_traffic(tin.Tracker.type,tin.Tracker.pid);
-	
+
 	// go to comment
 	$('.commentbtn').click(function(){$('html,body').animate({scrollTop:$('#comments').offset().top}, 800);});
-	
+
 	// loading complete
 	$('.site_loading').fadeOut();
 
@@ -1125,7 +1140,7 @@ $(document).ready(function(){
         $($(this).parent('a').attr('href')).fadeIn();
         e.preventDefault();
     })
-	
+
 	// stickys & latest tabs
     $('.stickys span.heading-text-cms').click(function(e){
         $('.stickys span.heading-text-cms').removeClass('active');
@@ -1134,7 +1149,7 @@ $(document).ready(function(){
         $($(this).attr('id')).fadeIn();
         e.preventDefault();
     })
-	
+
     // Mobile nav append
     $('#menu-mobile li.menu-item-has-children').prepend('<span class="child-menu-block"></span>');
     // Mobile menu click toggle
@@ -1146,16 +1161,16 @@ $(document).ready(function(){
             $(this).parent().addClass('expand');
         }
     })
-	
+
 	// href add _blank
 	var titles = $('h1 a,h2 a,h3 a');
 	titles.each(function(){
 		$(this).attr('target','_blank');
 	})
-	
+
 	// code highlight
     window.prettyPrint && prettyPrint();
-	
+
 	// Tabs widget
 	$(function() {
 		var $tabsNav       = $('.tin-tabs-nav'),
@@ -1174,7 +1189,7 @@ $(document).ready(function(){
 			if($this.hasClass('active')) return;
 			$this.siblings().removeClass('active').end()
 			.addClass('active');
-			
+
 			$this.parent().next().children('.tin-tab').stop(true,true).hide()
 			.siblings( $this.find('a').attr('href') ).fadeIn();
 			e.preventDefault();
@@ -1183,7 +1198,7 @@ $(document).ready(function(){
 			e.preventDefault();
 		})
 	})
-	
+
 	// Store switch
 	$(function() {
         var $wrapNav       = $('#wrapnav ul.nav'),
@@ -1203,10 +1218,10 @@ $(document).ready(function(){
         })//.children( window.location.hash ? 'a[href=' + window.location.hash + ']' : 'a:first' ).trigger('click');
 
 	})
-	
+
 	// lightbox
 	$("a[rel^='prettyPhoto']").prettyPhoto({theme: 'pp_default',slideshow:3000, autoplay_slideshow:false});
-	
+
 	// ajax more
 	var $maxclick = 0,
 		$doing = false;
@@ -1240,11 +1255,11 @@ $(document).ready(function(){
 					$loader.remove();
 					$this.remove();
 					$('.aload').removeClass('aload').addClass('bload').fadeIn().html('<a style="cursor:default;">没有更多了...</a>');
-				}$doing = false;},2500);				
+				}$doing = false;},2500);
 			}
 		});
 	};
-	
+
 	$(window).scroll(function(){
 		if($('#fluid_blocks').length>0){
 			$top = $('#fluid_blocks').offset().top;
@@ -1255,7 +1270,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	
+
 	$('.aload a').on('click',function(e){
 		ajax_load_data(e,1);
 	});
@@ -1268,7 +1283,7 @@ $(document).ready(function(){
       $('.box').hide();
       box.show();
   });
-	
+
   // footer position fixed
   var ft_t = $('#footer-nav-wrap').offset().top,
 	  ft_h = $('#footer-nav-wrap').height();
@@ -1278,4 +1293,4 @@ $(document).ready(function(){
 	   $('#body-container,html,body').css('height','100%');
 	   $('.separator').hide();
   }
-}); 
+});
