@@ -46,7 +46,7 @@
      </div>
      <div class="single-tag">
       <i class="fa fa-tag"></i>&nbsp;&nbsp;
-      <a href="https://www.lmonkey.com/tag/%e8%a7%86%e9%87%8e" rel="tag">{{ $art->art_tag }}</a>
+      <a href="javascript:;" rel="tag">{{ $art->art_tag }}</a>
      </div>
 
      <!-- Bottom ad -->
@@ -155,7 +155,7 @@
        <div class="cancel-comment-reply" style="margin-bottom:5px">
         <small><a rel="nofollow" id="cancel-comment-reply-link" href="/5136.html#respond" style="display:none;">点击这里取消回复。</a></small>
        </div>
-       <form action="{{ url('comment') }}" method="post" id="commentform">
+       <form action="{{ url('comment') }}" method="post">
         <div class="author">
          <div id="real-avatar">
           {{ csrf_field() }}
@@ -163,7 +163,7 @@
          </div>
          <div id="welcome">
           欢迎回来
-          <strong style="color: #f00;">Lmonkey</strong>
+          <strong style="color: #f00;">wuhan</strong>
           <a href="javascript:toggleCommentAuthorInfo();" id="toggle-comment-author-info">更改</a>
          </div>
         </div>
@@ -190,21 +190,12 @@
         </div>
         <div class="clear"></div>
         <div class="comt-box">
-         <textarea name="comment" id="comment" tabindex="5" rows="5" placeholder="说点什么吧..." required=""></textarea>
-         {{--<div class="comt-ctrl">--}}
-          {{--<span data-type="comment-insert-smilie" class="comt-smilie"><i class="fa fa-smile-o"></i> 表情</span>--}}
-          {{--<span class="comt-format"><i class="fa fa-code"></i> 格式</span>--}}
+         <textarea style="width: 100%; margin: 15px 0px 15px 0px;  border: 3px solid #ccc;" name="comment" id="comment" tabindex="5" rows="5" placeholder="说点什么吧..." required=""></textarea>
           <button class="submit btn btn-submit" name="submit" type="submit"  tabindex="6"><i class="fa fa-check-square-o"></i> 提交评论</button>
-          {{--<!--input class="reset" name="reset" type="reset" id="reset" tabindex="7" value="重　　写" /-->--}}
           <input type="hidden" name="comment_post_ID" value="{{ $art->art_id }}" id="comment_post_ID" />
-          {{--<input type="hidden" name="comment_parent" id="comment_parent" value="0" />--}}
-          {{--<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="856f7f2a96" /></p>--}}
-          {{--<span class="mail-notify-check"><input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked" style="vertical-align:middle;" /><label for="comment_mail_notify" style="vertical-align:middle;">有人回复时邮件通知我</label></span>--}}
-          {{--<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="65" /></p>--}}
-          {{--<div class="clr"></div>--}}
-         {{--</div>--}}
         </div>
        </form>
+
        <div class="clear"></div>
       </div>
      </div>
@@ -214,26 +205,50 @@
       <a href="#quote_comments"><span id="comments_quote"><i class="fa fa-share"></i>0 引用</span></a>
      </div>
      <ol class="commentlist" id="normal_comments">
-      @foreach($comment as $v)
+      @foreach($commentone as $k => $v)
       <li class="comment even thread-even depth-1" id="comment-22456">
-       <div id="div-comment-22456" class="comment-body">
+       <div id="div-comment-22456" class="comment-body" >
         <img src="/home/images/?s=54&amp;d=wavatar&amp;r=g" class="avatar" width="54" height="54" />
         <span class="floor"> #10 </span>
         <div class="comment-main">
-         <span style="color:#C00; font-style:inherit; margin-top:5px; line-height:25px;">{{ $v->content }}</span>
+         <span style=" font-style:inherit; margin-top:5px; line-height:25px;">{{ $v->content }}</span>
          <br />
          <div class="comment-author">
           <div class="comment-info">
-           <span class="comment_author_link">{{ $v->nickname }}</span>
-           <span class="comment_author_vip tooltip-trigger" title="评论达人 LV.1"><span class="vip vip1">评论达人 LV.1</span></span>
+           <span class="comment_author_link" style="color:#C00;">{{ $v->nickname }}</span>
+           <span class="comment_author_vip tooltip-trigger" title="评论达人 LV.1"><span class="vip vip2">评论达人 LV.1</span></span>
            <span class="datetime"> 1小时前 </span>
-           <span class="reply"> <a rel="nofollow" class="comment-reply-login user-login" href="javascript:">登录以回复</a> </span>
+           <span class="reply"> <a rel="nofollow" class="comment-reply-login user-login" href="javascript:">顶级评论</a> </span>
            <!-- edit_comment_link(__('编辑','tinection'));-->
           </div>
          </div>
          <div class="clear"></div>
         </div>
-       </div> </li>
+       </div>
+      </li>
+          @if(!empty($commenttwo[$k]))
+              @foreach($commenttwo[$k] as $m =>$n)
+                     <li class="comment even thread-even depth-1" id="comment-22456">
+                         <div id="div-comment-22456" class="comment-body" style="width: 90%; height: 90%; margin-left: 30px;">
+                             <img src="/home/images/?s=54&amp;d=wavatar&amp;r=g" class="avatar" width="54" height="54" />
+                             <span class="floor"> #10 </span>
+                             <div class="comment-main">
+                                 <span style=" font-style:inherit; margin-top:5px; line-height:25px;">答复：{{ $n->content }}</span>
+                                 <br />
+                                 <div class="comment-author">
+                                     <div class="comment-info">
+                                         <span class="comment_author_link" style="color:#C00;">{{ $n->nickname }}</span>
+                                         <span class="comment_author_vip tooltip-trigger" title="评论达人 LV.1"><span class="vip vip1">评论达人 LV.1</span></span>
+                                         <span class="datetime"> 1小时前 </span>
+                                         <span class="reply"> <a rel="nofollow" class="comment-reply-login user-login" href="javascript:">评论答复</a> </span>
+                                         <!-- edit_comment_link(__('编辑','tinection'));-->
+                                     </div>
+                                 </div>
+                                 <div class="clear"></div>
+                             </div>
+                         </div> </li>
+              @endforeach
+          @endif
       @endforeach
       <div class="cpagination"></div>
      </ol>

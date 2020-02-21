@@ -91,6 +91,7 @@ class IndexController extends CommonController
 //        dd($catename);
         $arr = [];
         if($cate->cate_pid == 0){
+            //如果是顶级分类找到所有的下级分类
             $cate = Cate::where('cate_pid',$cate->cate_id)->get();
             //存放分类id的数组
             $arr = [];
@@ -128,8 +129,27 @@ class IndexController extends CommonController
 
 //        文章评论
         $comment = Comment::where('post_id',$art->art_id)->get();
-        return view('home.detail',compact('art','pre','next','similar','comment'));
 
+        //存放一级类变量
+        $commentone = [];
+//        存放二级类变量
+        $commenttwo = [];
+        foreach ($comment as $k=>$v)
+        {
+            //取出所有的一级类，存放到$commentone
+            if($v->parent_id == 0){
+                $commentone[$k] = $v;
+                //获取当前一级类下的二级类
+                foreach($comment as $m=>$n){
+                    if($v->id == $n->parent_id){
+                        $commenttwo[$k][$m]=$n;
+                    }
+                }
+            }
+        }
+//                dd($commentone);
+//        dd($commenttwo);
+        return view('home.detail',compact('art','pre','next','similar','commentone','commenttwo'));
     }
 
     //评论

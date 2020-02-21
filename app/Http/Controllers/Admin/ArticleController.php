@@ -167,7 +167,9 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cates = (new Cate)->tree();
+        $arts = Article::find($id);
+        return view('admin.article.edit',compact('arts','cates'));
     }
 
     /**
@@ -179,7 +181,24 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->except('artid','_token','photo');
+//        dd($input);
+//        使用模型修改表记录的两种方法,方法一
+        $art = Article::find($id);
+        $res = $art->update($input);
+        if($res){
+            $data = [
+                'status'=>0,
+                'msg'=>'修改成功'
+            ];
+        }else{
+//            return 2222;
+            $data = [
+                'status'=>1,
+                'msg'=>'修改失败'
+            ];
+        }
+        return $data;
     }
 
     /**
@@ -206,5 +225,29 @@ class ArticleController extends Controller
         }
 
         return $data;
+    }
+
+    //添加推荐位
+    public function recommend(Request $request)
+    {
+        // 更新添加到推荐位状态
+        $input = $request->all();
+//        return $status;
+        $art = Article::find($input['id']);
+        if ($input['status'] == 1) {
+            $res = $art->update(['art_status' => 0]);
+            if ($res) {
+                return response()->json(['status' => 0]);
+            } else {
+                return response()->json(['status' => 1]);
+            }
+        } else {
+            $res = $art->update(['art_status' => 1]);
+            if ($res) {
+                return response()->json(['status' => 0]);
+            } else {
+                return response()->json(['status' => 1]);
+            }
+        }
     }
 }

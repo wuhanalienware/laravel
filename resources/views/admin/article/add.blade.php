@@ -63,7 +63,6 @@
                 </div>
             </div>
 
-
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-block">
@@ -167,6 +166,7 @@
           ,layer = layui.layer;
           var upload = layui.upload;
             var element = layui.element;
+
 
           $('#test1').on('click',function () {
                 $('#photo_upload').trigger('click');

@@ -19,11 +19,16 @@
 //前台路由
 
 Route::get('/','Home\IndexController@index')->name('index');
+//列表
 Route::get('lists/{id}','Home\IndexController@lists');
+//详情
 Route::get('detail/{id}','Home\IndexController@detail');
 
+//收藏
 Route::post('collect','Home\IndexController@collect');
 
+//评论
+Route::post('comment','Home\IndexController@comment');
 //登录
 Route::get('login','Home\LoginController@login');
 Route::post('dologin','Home\LoginController@doLogin');
@@ -122,6 +127,9 @@ Route::group(['prefix'=>'admin','namespace'=>'Admin','middleware'=>['isLogin','h
     //    文章缩略图上传路由
     Route::post('article/upload','ArticleController@upload');
     //文章路由
+
+    //    文章添加到推荐位路由
+    Route::get('article/recommend','ArticleController@recommend');
     Route::resource('article','ArticleController');
 
 
